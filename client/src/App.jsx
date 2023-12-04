@@ -1,20 +1,43 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
 import Header from './components/Header'
-import Home from './components/Home'
-
-
+import Footer from './components/Footer'
+import Home from './components/Home/Home'
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"
+import Courses from './components/Courses'
 
 function App() {
-
   return (
     <>
-    <Header></Header>
-    <Home></Home>
+      <Header></Header>
+      <Outlet></Outlet>
+      <Footer></Footer>
     </>
   )
 }
 
-export default App
+const approuter = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Home />
+      },
+      {
+        path: "/courses",
+        element: <Courses />
+      }
+    ]
+  }
+])
+
+const root = ReactDOM.createRoot(document.getElementById("root"))
+
+root.render(
+  <React.StrictMode>
+    <RouterProvider router={approuter}></RouterProvider>
+  </React.StrictMode>
+)

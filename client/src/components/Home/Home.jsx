@@ -2,7 +2,7 @@ import { EnvelopeIcon, VideoCameraIcon } from "@heroicons/react/24/solid";
 import Faq from "./Faq";
 import InsightCard from "./InsightCard";
 import ImageSlider from "./ImageSlider";
-import { faq } from "../utils/faqData";
+import { faq } from "../../utils/faqData";
 
 const Home = () => {
   return (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sliderImgLink } from "../utils/sliderImgLink";
+import { sliderImgLink } from "../../utils/sliderImgLink";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 const ImageSlider = () => {
