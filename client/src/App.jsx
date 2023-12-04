@@ -5,7 +5,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './components/Home/Home'
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"
-import Courses from './components/Courses'
+import Courses from './components/Courses/Courses'
 
 function App() {
   return (

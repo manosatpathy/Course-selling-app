@@ -1,7 +1,10 @@
 import express from "express";
 import authenticateJwt from "../middlewares/authenticateJwt.js";
 import { Admin, Course } from "../models/models.js";
+import dotenv from "dotenv";
 
+dotenv.config();
+const secret = process.env.SECRET_KEY;
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
