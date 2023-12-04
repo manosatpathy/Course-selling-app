@@ -9,7 +9,7 @@ const Header = () => {
   };
 
   return (
-    <div className='lg:container lg:mx-auto px-4 md:px-8 lg:px-16 bg-gray-100'>
+    <div className='lg:container lg:mx-auto px-4 md:px-8 lg:px-16'>
       <div className='flex justify-between items-center py-4'>
         <div className='flex items-center gap-8'>
           <CodeBracketIcon className='h-10 w-10 text-violet-700' />
