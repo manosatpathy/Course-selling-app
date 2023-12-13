@@ -5,7 +5,9 @@
   "description": "a Course selling app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "author": "mano satpathy",
   "license": "ISC",
@@ -15,5 +17,11 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/mongoose": "^5.11.97"
   }
 }

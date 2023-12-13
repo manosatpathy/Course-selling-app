@@ -1,10 +1,16 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import authenticateJwt from "../middlewares/authenticateJwt.js";
 import { Admin, Course } from "../models/models.js";
 import dotenv from "dotenv";
 
 dotenv.config();
 const secret = process.env.SECRET_KEY;
+
+if (!secret) {
+  throw new Error("Secret key is not defined in environment variables.");
+}
+
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
@@ -16,7 +22,11 @@ router.post("/signup", async (req, res) => {
   const newAdmin = new Admin({ username, password });
   await newAdmin.save();
   const token = jwt.sign({ username, role: "admin" }, secret, {
-    expiresIn: "1h",
+    expiresIn: "30d",
+  });
+  res.cookie("token", token, {
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    httpOnly: true,
   });
   res.status(200).json({ message: "admin created successfuly", token });
 });
@@ -26,7 +36,11 @@ router.post("/signin", async (req, res) => {
   const admin = await Admin.findOne({ username, password });
   if (admin) {
     const token = jwt.sign({ username, role: "admin" }, secret, {
-      expiresIn: "1h",
+      expiresIn: "30d",
+    });
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
     });
     res.json({ message: "admin signed in succefully", token });
   } else {

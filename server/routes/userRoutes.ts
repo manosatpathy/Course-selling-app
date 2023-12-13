@@ -6,6 +6,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const secret = process.env.SECRET_KEY;
+
+if (!secret) {
+  throw new Error("Secret key is not defined in environment variables.");
+}
+
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
@@ -17,7 +22,11 @@ router.post("/signup", async (req, res) => {
   const newUser = new User({ username, password });
   await newUser.save();
   const token = jwt.sign({ username, role: "user" }, secret, {
-    expiresIn: "1h",
+    expiresIn: "30d",
+  });
+  res.cookie("token", token, {
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    httpOnly: true,
   });
   res.status(200).json({ message: "admin created successfuly", token });
 });
@@ -27,7 +36,11 @@ router.post("/signin", async (req, res) => {
   const user = await User.findOne({ username, password });
   if (user) {
     const token = jwt.sign({ username, role: "user" }, secret, {
-      expiresIn: "1h",
+      expiresIn: "30d",
+    });
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
     });
     res.json({ message: "user signed in succefully", token });
   } else {
@@ -45,7 +58,7 @@ router.get("/courses/:courseId", authenticateJwt, async (req, res) => {
   if (course) {
     const user = await User.findOne({ username: req.user.username });
     if (user) {
-      user.purchasedCourses.push(course);
+      user.purchasedCourses.push(course._id);
       await user.save();
       res.json({ message: "course purchased succefully" });
     } else {
