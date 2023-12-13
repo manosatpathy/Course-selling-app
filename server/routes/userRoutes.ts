@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import authenticateJwt from "../middlewares/authenticateJwt.js";
+import { authenticateJwt } from "../middlewares/authenticateJwt.js";
 import { Course, User } from "../models/models.js";
 import dotenv from "dotenv";
 
@@ -56,7 +56,7 @@ router.get("/courses", authenticateJwt, async (req, res) => {
 router.get("/courses/:courseId", authenticateJwt, async (req, res) => {
   const course = await Course.findById(req.params.courseId);
   if (course) {
-    const user = await User.findOne({ username: req.user.username });
+    const user = await User.findOne({ username: req.headers["username"] });
     if (user) {
       user.purchasedCourses.push(course._id);
       await user.save();
@@ -70,7 +70,8 @@ router.get("/courses/:courseId", authenticateJwt, async (req, res) => {
 });
 
 router.get("/purchasedCourses", authenticateJwt, async (req, res) => {
-  const user = await User.findOne({ username: req.user }).populate(
+  const username = req.headers["username"];
+  const user = await User.findOne({ username: username }).populate(
     "purchasedCourses"
   );
   if (user) {

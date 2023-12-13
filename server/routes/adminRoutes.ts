@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import authenticateJwt from "../middlewares/authenticateJwt.js";
+import { authenticateJwt } from "../middlewares/authenticateJwt.js";
 import { Admin, Course } from "../models/models.js";
 import dotenv from "dotenv";
 
@@ -55,7 +55,11 @@ router.post("/courses", authenticateJwt, async (req, res) => {
 });
 
 router.put("/course/:courseId", authenticateJwt, async (req, res) => {
-  const course = await Course.updateOne(req.params.id, req.body, { new: true });
+  const course = await Course.updateOne(
+    { _id: req.params.courseId },
+    req.body,
+    { new: true }
+  );
   if (course) {
     res.json({ message: "course updated successfully" });
   } else {
