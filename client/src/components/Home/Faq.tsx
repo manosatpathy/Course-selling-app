@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { Collapse } from "react-collapse";
 
-const Faq = ({ data }) => {
+interface FaqProps {
+  data: {
+    query: string;
+    response: string;
+  }
+}
+
+const Faq: React.FC<FaqProps> = ({ data }) => {
   const { query, response } = data;
   const [open, setOpen] = useState(false);
 
